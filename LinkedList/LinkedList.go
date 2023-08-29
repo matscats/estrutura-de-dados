@@ -112,14 +112,29 @@ func (list *LinkedList[T]) Remove(pos int) {
 		return
 	}
 
+	if pos == 0 {
+		list.head = list.head.next
+		return
+	}
+
 	current := list.head
 
 	for i := 0; i < pos-1; i++ {
+		if current == nil {
+			fmt.Println("A posição está fora da lista")
+			return
+		}
 		current = current.next
 	}
 
-	current.next = current.next.next
-	current.next.next = nil
+	if current == nil {
+		fmt.Println("A posição está fora da lista")
+		return
+	}
+
+	removed_node := current.next
+	current.next = removed_node.next
+	removed_node.next = nil
 }
 
 func (list *LinkedList[T]) Get(pos int) T {
@@ -173,10 +188,11 @@ func main() {
 	list.AddLast(10)
 	list.Display()
 	list.AddPos(3, 1)
+	list.AddLast(10)
+	list.AddLast(15)
 	list.Display()
 	list.RemoveLast()
 	list.Display()
-	list.Remove(1)
+	list.Remove(5)
 	list.Display()
-	fmt.Println(list.Get(1))
 }
