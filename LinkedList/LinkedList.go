@@ -9,6 +9,7 @@ type List[T any] interface {
 	RemoveLast()
 	Remove(pos int)
 	Get(pos int) T
+	InvertList()
 	Size() int
 	Display()
 }
@@ -181,18 +182,31 @@ func (list *LinkedList[T]) Update(value T, pos int) {
 	current.value = value
 }
 
+func (list *LinkedList[T]) InvertList() {
+	current := list.head
+	next := Node[T]{}
+	previus := Node[T]{}
+
+	for current != nil {
+		next = current.next
+	}
+	list.head = current
+}
+
 func main() {
 	list := NewLinkedList[int]()
-	list.AddLast(2)
+	list.AddLast(1)
 	list.AddLast(1)
 	list.AddLast(10)
-	list.Display()
 	list.AddPos(3, 1)
 	list.AddLast(10)
 	list.AddLast(15)
 	list.Display()
-	list.RemoveLast()
-	list.Display()
-	list.Remove(5)
+	// fmt.Printf("Tamanho da lista: %d\n", list.Size())
+	// fmt.Println("Removendo na posição 0")
+	// list.Remove(0)
+	// list.Display()
+	// fmt.Printf("Tamanho da lista: %d\n", list.Size())
+	list.InvertList()
 	list.Display()
 }
