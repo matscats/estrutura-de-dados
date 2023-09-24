@@ -13,6 +13,7 @@ type List[T any] interface {
 	Get(pos int) T
 	Size() int
 	Display()
+	InvertList()
 }
 
 type Node[T any] struct {
@@ -158,18 +159,29 @@ func (list *DoublyLinkedList[T]) Size() int {
 	return list.length
 }
 
+func (list *DoublyLinkedList[T]) InvertList() {
+	var aux *Node[T] = nil
+	current := list.head
+
+	for current != nil {
+		aux = current.prev
+		current.prev = current.next
+		current.next = aux
+		current = current.prev
+	}
+	aux = list.tail
+	list.tail = list.head
+	list.head = aux
+}
+
 func main() {
 	list := NewDoublyLinkedList[int]()
-	list.AddLast(0)
+	list.AddLast(1)
+	list.AddLast(2)
+	list.AddLast(3)
 	list.AddLast(4)
-	list.AddLast(10)
+	list.AddLast(5)
 	list.Display()
-	list.AddPos(5, 0)
-	list.Display()
-	list.Update(7, 3)
-	list.Display()
-	list.Remove(3)
-	list.Display()
-	list.AddPos(86, 2)
+	list.InvertList()
 	list.Display()
 }
