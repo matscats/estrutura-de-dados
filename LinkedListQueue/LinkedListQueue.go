@@ -16,19 +16,20 @@ type Node[T any] struct {
 }
 
 type LinkedListQueue[T any] struct {
-	head *Node[T]
+	rear  *Node[T]
+	front *Node[T]
 }
 
 func newLinkedListQueue[T any]() *LinkedListQueue[T] {
-	return &LinkedListQueue[T]{}
+	return &LinkedListQueue[T]{rear: nil, front: nil}
 }
 
 func (queue *LinkedListQueue[T]) IsEmpty() bool {
-	return queue.head == nil
+	return queue.front == nil
 }
 
 func (queue *LinkedListQueue[T]) Size() int {
-	current := queue.head
+	current := queue.front
 	count := 0
 	for current != nil {
 		current = current.next
@@ -40,16 +41,19 @@ func (queue *LinkedListQueue[T]) Size() int {
 func (queue *LinkedListQueue[T]) Enqueue(value T) {
 	newNode := Node[T]{value: value, next: nil}
 	if queue.Size() == 0 {
-		queue.head = &newNode
+		queue.rear = &newNode
+		queue.front = &newNode
 		return
 	}
-	current := queue.head
+
+	current := queue.front
 
 	for current.next != nil {
 		current = current.next
 	}
 
 	current.next = &newNode
+	queue.rear = &newNode
 }
 
 func (queue *LinkedListQueue[T]) Dequeue() T {
@@ -58,8 +62,8 @@ func (queue *LinkedListQueue[T]) Dequeue() T {
 		var None T
 		return None
 	}
-	item := queue.head.value
-	queue.head = queue.head.next
+	item := queue.front.value
+	queue.front = queue.front.next
 	return item
 }
 
@@ -69,7 +73,7 @@ func (queue *LinkedListQueue[T]) Front() T {
 		var None T
 		return None
 	}
-	item := queue.head.value
+	item := queue.front.value
 	return item
 }
 
