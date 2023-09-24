@@ -183,30 +183,27 @@ func (list *LinkedList[T]) Update(value T, pos int) {
 }
 
 func (list *LinkedList[T]) InvertList() {
+	var prev *Node[T] = nil
+	var next *Node[T] = nil
 	current := list.head
-	next := Node[T]{}
-	previus := Node[T]{}
 
 	for current != nil {
 		next = current.next
+		current.next = prev
+		prev = current
+		current = next
 	}
-	list.head = current
+	list.head = prev
 }
 
 func main() {
 	list := NewLinkedList[int]()
 	list.AddLast(1)
-	list.AddLast(1)
-	list.AddLast(10)
-	list.AddPos(3, 1)
-	list.AddLast(10)
-	list.AddLast(15)
+	list.AddLast(2)
+	list.AddLast(3)
+	list.AddLast(4)
+	list.AddLast(5)
 	list.Display()
-	// fmt.Printf("Tamanho da lista: %d\n", list.Size())
-	// fmt.Println("Removendo na posição 0")
-	// list.Remove(0)
-	// list.Display()
-	// fmt.Printf("Tamanho da lista: %d\n", list.Size())
 	list.InvertList()
 	list.Display()
 }
