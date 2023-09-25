@@ -45,14 +45,7 @@ func (queue *LinkedListQueue[T]) Enqueue(value T) {
 		queue.front = &newNode
 		return
 	}
-
-	current := queue.front
-
-	for current.next != nil {
-		current = current.next
-	}
-
-	current.next = &newNode
+	queue.rear.next = &newNode
 	queue.rear = &newNode
 }
 
